@@ -22,7 +22,7 @@ public class MoviePosterManagerTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    @Test //тест на показ последнего фильма
+    @Test //тест на показ последнего фильма, когда в менеджере количество фильмов = лимиту
     public void testLastMovie() {
         MoviePosterManager manager = new MoviePosterManager();
         manager.addMovie("Film 1");
@@ -35,5 +35,28 @@ public class MoviePosterManagerTest {
         String[] actual = manager.findLast();
         Assertions.assertArrayEquals(expected, actual);
     }
-
+    @Test //тест на показ последнего фильма, когда в менеджере фильмов больше, чем лимит
+    public void testShowMovieUnderLimit() {
+        MoviePosterManager manager = new MoviePosterManager();
+        manager.addMovie("Film 1");
+        manager.addMovie("Film 2");
+        manager.addMovie("Film 3");
+        manager.addMovie("Film 4");
+        manager.addMovie("Film 5");
+        manager.addMovie("Film 6");
+        String[] expected = {"Film 6", "Film 5", "Film 4", "Film 3", "Film 2"};
+        String[] actual = manager.findLast();
+       Assertions.assertArrayEquals(expected,actual);
+    }
+    @Test //тест на показ последнего фильма, когда в менеджере фильмов меньше, чем лимит
+    public void testShowMovieBelowLimit() {
+        MoviePosterManager manager = new MoviePosterManager();
+        manager.addMovie("Film 1");
+        manager.addMovie("Film 2");
+        manager.addMovie("Film 3");
+        manager.addMovie("Film 4");
+        String[] expected = {"Film 4", "Film 3", "Film 2", "Film 1"};
+        String[] actual = manager.findLast();
+        Assertions.assertArrayEquals(expected,actual);
+    }
 }
